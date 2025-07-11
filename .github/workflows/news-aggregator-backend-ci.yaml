@@ -118,6 +118,7 @@ jobs:
         run: php --version
 
       - uses: symfonycorp/security-checker-action@v5
+        working-directory: ./backend
 
       - name: Execute Code Sniffer via phpcs
         working-directory: ./backend
