@@ -17,13 +17,37 @@ This is the backend API of the **News Aggregator App**, built with Laravel. It h
 
 ---
 
-## ⚙️ Requirements
+## 🚀 Getting Started
 
-- PHP >= 8.2
-- Composer
-- MySQL
-- Laravel 12
-- Redis
+Follow these steps to build and run the Laravel API using Docker.
+
+### ⚙️ Prerequisites
+
+Make sure you have the following installed on your system:
+
+- [Docker Desktop](https://www.docker.com/products/docker-desktop/)
+- Docker Compose (comes with Docker Desktop)
+- Linux/macOS/WSL recommended (or Git Bash on Windows)
+
+## 🛠️ Installation Instructions
+
+### 1️⃣ Start and Build Containers
+
+```bash
+docker-compose up -d --build
+```
+This builds the Docker containers and starts the Laravel app, MySQL, Redis, and Nginx services.
+
+### 2️⃣ Enter the Laravel Continer
+```bash
+docker exec -it news_aggregator bash
+```
+This command opens an interactive terminal session inside the Laravel PHP container (called news_aggregator).
+
+### 3️⃣ Run the Init Script
+```bash
+./init.sh
+```
 
 ---
 
