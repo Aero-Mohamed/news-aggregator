@@ -118,7 +118,8 @@ jobs:
         run: php --version
 
       - uses: symfonycorp/security-checker-action@v5
-        working-directory: ./backend
+        with:
+          lock: ./backend/composer.lock
 
       - name: Execute Code Sniffer via phpcs
         working-directory: ./backend
