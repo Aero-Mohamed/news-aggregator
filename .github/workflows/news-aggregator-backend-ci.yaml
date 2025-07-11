@@ -1,4 +1,5 @@
-name: news_aggregator_ci
+name: news_aggregator_backend_ci
+
 on:
   push:
     branches:
@@ -8,7 +9,7 @@ on:
 jobs:
   laravel-tests:
     runs-on: ubuntu-latest
-    # Service container Mysql mysql
+
     services:
       redis:
         image: redis:latest
@@ -17,17 +18,13 @@ jobs:
           REDIS_PORT: 6379
         ports:
           - 6379:6379
-      # Label used to access the service container
       mysql:
-        # Docker Hub image (also with version)
         image: mysql:latest
         env:
           MYSQL_ROOT_PASSWORD: root
-          MYSQL_DATABASE:  news_aggregator
-        ## map the "external" 33306 port with the "internal" 3306
+          MYSQL_DATABASE: news_aggregator
         ports:
           - 33306:3306
-        # Set health checks to wait until mysql database has started (it takes some seconds to start)
         options: >-
           --health-cmd="mysqladmin ping"
           --health-interval=10s
@@ -37,29 +34,31 @@ jobs:
     strategy:
       matrix:
         operating-system: [ubuntu-latest]
-        php-versions: [ '8.3']
-        dependency-stability: [ 'prefer-none' ]
-
-        laravel: [ '12.*' ]
+        php-versions: ['8.3']
+        dependency-stability: ['prefer-none']
+        laravel: ['12.*']
         include:
-          - laravel:  12.*
+          - laravel: 12.*
             testbench: 9.*
 
-
-    name: P${{ matrix.php-versions }} - L${{ matrix.laravel }} - ${{ matrix.dependency-stability }} - ${{ matrix.operating-system}}
+    name: P${{ matrix.php-versions }} - L${{ matrix.laravel }} - ${{ matrix.dependency-stability }} - ${{ matrix.operating-system }}
 
     steps:
       - uses: actions/checkout@v4
+
       - name: "Install php-pcov for Coverage Test"
         run: sudo apt-get install php-pcov -y
+
       - name: Install PHP versions
         uses: shivammathur/setup-php@v2
         with:
           php-version: ${{ matrix.php-versions }}
-      - name: Get Composer Cache Directory 2
+
+      - name: Get Composer Cache Directory
         id: composer-cache
-        run: |
-          echo "dir=$(composer config cache-files-dir)" >> $GITHUB_OUTPUT
+        working-directory: ./backend
+        run: echo "dir=$(composer config cache-files-dir)" >> $GITHUB_OUTPUT
+
       - uses: actions/cache@v4
         id: actions-cache
         with:
@@ -67,73 +66,74 @@ jobs:
           key: ${{ runner.os }}-composer-${{ hashFiles('**/composer.lock') }}
           restore-keys: |
             ${{ runner.os }}-composer-
+
       - name: Cache PHP dependencies
         uses: actions/cache@v4
         id: vendor-cache
         with:
-          path: vendor
+          path: backend/vendor
           key: ${{ runner.OS }}-build-${{ hashFiles('**/composer.lock') }}
+
       - name: Copy .env
+        working-directory: ./backend
         run: php -r "file_exists('.env') || copy('.env.example', '.env');"
+
       - name: Install Laravel Dependencies
         if: steps.vendor-cache.outputs.cache-hit != 'true'
+        working-directory: ./backend
         run: composer install -q --no-ansi --no-interaction --no-scripts --no-progress --prefer-dist
 
       - name: Update Dependencies with latest stable
         if: matrix.dependency-stability == 'prefer-stable'
+        working-directory: ./backend
         run: composer update --prefer-stable
+
       - name: Update Dependencies with lowest stable
         if: matrix.dependency-stability == 'prefer-lowest'
+        working-directory: ./backend
         run: composer update --prefer-stable --prefer-lowest
 
       - name: Generate key
+        working-directory: ./backend
         run: php artisan key:generate
+
       - name: Directory Permissions
+        working-directory: ./backend
         run: chmod -R 777 storage bootstrap/cache
+
       - name: Run Migrations
-        # Set environment
+        working-directory: ./backend
         env:
           DB_CONNECTION: mysql
           DB_DATABASE: news_aggregator
           DB_PORT: 33306
           DB_USER: root
           DB_PASSWORD: root
-
         run: php artisan migrate
 
       - name: Show dir
         run: pwd
+
       - name: PHP Version
         run: php --version
-
-      # Code quality
-
-      #      - name: Execute tests (Unit and Feature tests) via PestPHP
-      #        # Set environment
-      #        env:
-      #          DB_CONNECTION: mysql
-      #          DB_DATABASE: news_aggregator
-      #          DB_PORT: 33306
-      #          DB_USER: root
-      #          DB_PASSWORD: root
-      #
-      #        run: vendor/bin/pest --coverage
 
       - uses: symfonycorp/security-checker-action@v5
 
       - name: Execute Code Sniffer via phpcs
+        working-directory: ./backend
         run: |
           composer require --dev squizlabs/php_codesniffer
           vendor/bin/phpcs --config-set show_warnings 0
           vendor/bin/phpcs --standard=PSR12 app app-modules
 
       - name: Execute Code Static Analysis (PHP Stan + Larastan)
+        working-directory: ./backend
         run: |
           composer require --dev larastan/larastan
           vendor/bin/phpstan analyse --error-format=github -c phpstan.neon --no-progress
 
       - name: Run Fresh migration and seed the data
-        # Set environment
+        working-directory: ./backend
         env:
           DB_CONNECTION: mysql
           DB_DATABASE: news_aggregator
