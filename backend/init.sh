@@ -11,7 +11,6 @@ if [ -f artisan ]; then
 
     php artisan migrate --force
 
-    php artisan install:api --passport -q
     php artisan passport:keys -n -q
 
     php artisan storage:link
