@@ -51,6 +51,34 @@ This command opens an interactive terminal session inside the Laravel PHP contai
 
 ---
 
+## 🧪 Continuous Integration (CI)
+
+This project uses **GitHub Actions** to automatically run tests and code quality checks on every push to:
+
+- `develop`
+- Any `feature/**` branch
+
+### ✅ CI Workflow Summary
+
+The CI pipeline runs the following checks:
+
+| Step                       | Description                                                 |
+|----------------------------|-------------------------------------------------------------|
+| ✅ PHP Lint & Version Check | Ensures PHP 8.3 is used                                     |
+| ✅ Composer Install & Cache | Installs dependencies with cache optimization               |
+| ✅ MySQL & Redis Containers | Runs integration tests using real services                  |
+| ✅ Laravel Migrations       | Applies schema for clean test DB                            |
+| ✅ Laravel Seeders          | Seeds fresh test data                                       |
+| ✅ PHPStan + Larastan       | Static analysis and type checking                           |
+| ✅ PHPCS                    | PSR-12 code style checks                                    |
+| ✅ Security Checker         | Scans for known security vulnerabilities in `composer.lock` |
+
+### 🧩 Workflow Configuration
+
+- File path: `.github/workflows/news_aggregator_backend_ci.yml`
+- Trigger: On push to `develop` or `feature/**` branches
+
+
 ## 🛡️Code Quality
 - Static Code Analysis (PHP Stan + LaraStan) - Testing for potential errors.
     - `./vendor/bin/phpstan analyse`
