@@ -26,7 +26,7 @@ services:
         depends_on:
             - app
 
-    db:
+    mysql:
         image: mysql:8.0
         container_name: laravel_db
         restart: unless-stopped
