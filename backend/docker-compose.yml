@@ -34,7 +34,7 @@ services:
             MYSQL_DATABASE: news_aggregator
             MYSQL_ROOT_PASSWORD: root
             MYSQL_PASSWORD: root
-            MYSQL_USER: laravel
+            MYSQL_USER: root
         ports:
             - "33066:3306"
         volumes:
