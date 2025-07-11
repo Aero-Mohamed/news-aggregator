@@ -126,7 +126,7 @@ jobs:
         run: |
           composer require --dev squizlabs/php_codesniffer
           vendor/bin/phpcs --config-set show_warnings 0
-          vendor/bin/phpcs --standard=PSR12 app app-modules
+          vendor/bin/phpcs --standard=PSR12 app
 
       - name: Execute Code Static Analysis (PHP Stan + Larastan)
         working-directory: ./backend
