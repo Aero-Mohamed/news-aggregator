@@ -1,8 +1,12 @@
 <?php
 
+use App\Http\Handlers\CommonApiExceptionHandler;
+use App\Http\Middleware\AlwaysAcceptJson;
 use Illuminate\Foundation\Application;
 use Illuminate\Foundation\Configuration\Exceptions;
 use Illuminate\Foundation\Configuration\Middleware;
+use League\OAuth2\Server\Exception\OAuthServerException;
+
 
 return Application::configure(basePath: dirname(__DIR__))
     ->withRouting(
@@ -12,8 +16,17 @@ return Application::configure(basePath: dirname(__DIR__))
         health: '/up',
     )
     ->withMiddleware(function (Middleware $middleware) {
-        //
+        $middleware->prependToGroup('api', AlwaysAcceptJson::class);
+
     })
     ->withExceptions(function (Exceptions $exceptions) {
-        //
+
+        $exceptions->dontReport([
+            // Thrown in case the given Access Token is invalid
+            OAuthServerException::class,
+        ]);
+
+        // Handle API Exceptions
+        (new CommonApiExceptionHandler())->handler($exceptions);
+
     })->create();

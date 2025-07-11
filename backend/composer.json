@@ -35,6 +35,10 @@
         }
     },
     "scripts": {
+        "lint": [
+            "phpcbf --standard=PSR12 app routes database",
+            "phpstan analyse"
+        ],
         "post-autoload-dump": [
             "Illuminate\\Foundation\\ComposerScripts::postAutoloadDump",
             "@php artisan package:discover --ansi"
