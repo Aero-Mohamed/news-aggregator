@@ -7,13 +7,6 @@ use Symfony\Component\HttpFoundation\Response as ResponseAlias;
 
 trait ApiResponse
 {
-    public static ResponseAlias $responseCode;
-
-    public function __construct()
-    {
-        self::$responseCode = new ResponseAlias();
-    }
-
     /**
      * @param mixed $data
      * @param string|null $message

@@ -80,10 +80,11 @@ The CI pipeline runs the following checks:
 
 
 ## 🛡️Code Quality
-- Static Code Analysis (PHP Stan + LaraStan) - Testing for potential errors.
-    - `./vendor/bin/phpstan analyse`
-- Php Code Sniffer - Testing for Common Standard for code writing style (PSR-12).
-    - Detect Problems `./vendor/bin/phpcs --standard=PSR12 app`
-    - Fix Problems `./vendor/bin/phpcbf --standard=PSR12 app`
+- Use command `composer lint` to run the following checks:
+  - Static Code Analysis (PHP Stan + LaraStan) - Testing for potential errors.
+      - `./vendor/bin/phpstan analyse`
+  - Php Code Sniffer (PSR-12).
+      - Detect Problems `./vendor/bin/phpcs --standard=PSR12 app`
+      - Fix Problems `./vendor/bin/phpcbf --standard=PSR12 app`
 
 ---

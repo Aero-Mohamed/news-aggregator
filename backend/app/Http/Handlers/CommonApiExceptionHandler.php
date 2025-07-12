@@ -12,6 +12,7 @@ use Illuminate\Validation\ValidationException;
 use Laravel\Passport\Exceptions\InvalidAuthTokenException;
 use Laravel\Passport\Exceptions\OAuthServerException;
 use League\OAuth2\Server\Exception\OAuthServerException as LeagueOAuthServerException;
+use Symfony\Component\HttpFoundation\Response as ResponseAlias;
 use Symfony\Component\HttpKernel\Exception\HttpException;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\HttpKernel\Exception\UnauthorizedHttpException;
@@ -25,70 +26,70 @@ class CommonApiExceptionHandler
         // Handle OAuthServerException (e.g., when Invalid Token fails)
         $exceptions->renderable(function (InvalidAuthTokenException $e, Request $request) {
             if ($request->wantsJson()) {
-                return $this->error($e->getMessage(), self::$responseCode::HTTP_UNAUTHORIZED);
+                return $this->error($e->getMessage(), ResponseAlias::HTTP_UNAUTHORIZED);
             }
         });
 
         // Handle OAuthServerException (e.g., when OAuth authentication fails)
         $exceptions->renderable(function (OAuthServerException $e, Request $request) {
             if ($request->wantsJson()) {
-                return $this->error($e->getMessage(), self::$responseCode::HTTP_UNAUTHORIZED);
+                return $this->error($e->getMessage(), ResponseAlias::HTTP_UNAUTHORIZED);
             }
         });
 
         // Handle LeagueOAuthServerException (e.g., when OAuth authentication fails)
         $exceptions->renderable(function (LeagueOAuthServerException $e, Request $request) {
             if ($request->wantsJson()) {
-                return $this->error($e->getMessage(), self::$responseCode::HTTP_UNAUTHORIZED);
+                return $this->error($e->getMessage(), ResponseAlias::HTTP_UNAUTHORIZED);
             }
         });
 
         // Handle UnauthorizedHttpException (e.g., when a user is not authorized)
         $exceptions->renderable(function (UnauthorizedHttpException $e, Request $request) {
             if ($request->wantsJson()) {
-                return $this->error($e->getMessage(), self::$responseCode::HTTP_UNAUTHORIZED);
+                return $this->error($e->getMessage(), ResponseAlias::HTTP_UNAUTHORIZED);
             }
         });
 
         // Handle AuthenticationException (e.g., when user credentials are invalid)
         $exceptions->renderable(function (AuthenticationException $e, Request $request) {
             if ($request->wantsJson()) {
-                return $this->error($e->getMessage(), self::$responseCode::HTTP_UNAUTHORIZED);
+                return $this->error($e->getMessage(), ResponseAlias::HTTP_UNAUTHORIZED);
             }
         });
 
         // Handle ModelNotFoundException (e.g., when a model is not found)
         $exceptions->renderable(function (ModelNotFoundException $e, Request $request) {
             if ($request->wantsJson()) {
-                return $this->error($e->getMessage(), self::$responseCode::HTTP_NOT_FOUND);
+                return $this->error($e->getMessage(), ResponseAlias::HTTP_NOT_FOUND);
             }
         });
 
         // Handle AuthenticationException (e.g., when a user is not authenticated)
         $exceptions->renderable(function (AuthenticationException $e, Request $request) {
             if ($request->wantsJson()) {
-                return $this->error($e->getMessage(), self::$responseCode::HTTP_UNAUTHORIZED);
+                return $this->error($e->getMessage(), ResponseAlias::HTTP_UNAUTHORIZED);
             }
         });
 
         // Handle AuthorizationException (e.g., when a user lacks the required permissions)
         $exceptions->renderable(function (AuthorizationException $e, Request $request) {
             if ($request->wantsJson()) {
-                return $this->error($e->getMessage(), self::$responseCode::HTTP_FORBIDDEN);
+                return $this->error($e->getMessage(), ResponseAlias::HTTP_FORBIDDEN);
             }
         });
 
         // Handle ValidationException (e.g., when form validation fails)
         $exceptions->renderable(function (ValidationException $e, Request $request) {
             if ($request->wantsJson()) {
-                return $this->error($e->getMessage(), self::$responseCode::HTTP_UNPROCESSABLE_ENTITY, $e->errors());
+                return $this->error($e->getMessage(), ResponseAlias::HTTP_UNPROCESSABLE_ENTITY, $e->errors());
             }
         });
 
         // Handle NotFoundHttpException (e.g., when a route is not found)
         $exceptions->renderable(function (NotFoundHttpException $e, Request $request) {
             if ($request->wantsJson()) {
-                return $this->error($e->getMessage(), self::$responseCode::HTTP_NOT_FOUND);
+                return $this->error($e->getMessage(), ResponseAlias::HTTP_NOT_FOUND);
             }
         });
 
