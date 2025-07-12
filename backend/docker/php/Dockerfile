@@ -10,6 +10,9 @@ RUN apt-get update && apt-get install -y \
 # Copy Composer from official Composer image
 COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
 
+# Set PHP memory limit to 512M (for: phpstan)
+RUN echo "memory_limit=512M" > /usr/local/etc/php/conf.d/memory-limit.ini
+
 # Set working directory
 WORKDIR /var/www
 
