@@ -31,6 +31,11 @@ Make sure you have the following installed on your system:
 
 ## 🛠️ Installation Instructions
 
+### 0️⃣ Install Composer Dependencies
+```bash
+composer install
+```
+
 ### 1️⃣ Start and Build Containers
 
 ```bash
@@ -38,7 +43,7 @@ docker-compose up -d --build
 ```
 This builds the Docker containers and starts the Laravel app, MySQL, Redis, and Nginx services.
 
-### 2️⃣ Enter the Laravel Continer
+### 2️⃣ Enter the Laravel Container
 ```bash
 docker exec -it news_aggregator bash
 ```
