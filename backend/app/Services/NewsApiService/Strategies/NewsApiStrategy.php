@@ -123,7 +123,7 @@ class NewsApiStrategy implements NewsSourceInterface
      * @param array $article
      * @return string
      */
-    function getSlug(array $article): string
+    public function getSlug(array $article): string
     {
         $title = $article['title'] . '-' . $article['source']['name'];
         return Str::slug($title);
