@@ -9,6 +9,7 @@ use Illuminate\Contracts\Auth\Authenticatable;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
+use Laravel\Passport\Contracts\OAuthenticatable;
 
 class UserRepository implements UserRepositoryInterface
 {
@@ -55,7 +56,7 @@ class UserRepository implements UserRepositoryInterface
      * @param User $user
      * @return void
      */
-    public function deleteTokens(User $user): void
+    public function deleteTokens(OAuthenticatable $user): void
     {
         $user->tokens()->delete();
     }

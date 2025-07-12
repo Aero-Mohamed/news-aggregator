@@ -2,21 +2,13 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\Auth\LoginRequest;
-use App\Http\Requests\Auth\RegisterRequest;
 use App\Http\Resources\UserResource;
 use App\Models\User;
 use App\Repositories\User\Contracts\UserRepositoryInterface;
 use App\Services\User\Contracts\UserServiceInterface;
 use App\Services\User\DTOs\CreateUserData;
 use App\Services\User\DTOs\LoginUserData;
-use App\Services\User\UserService;
-use Couchbase\AuthenticationException;
-use Illuminate\Auth\Events\Registered;
 use Illuminate\Http\JsonResponse;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
-use Laravel\Passport\PersonalAccessTokenResult;
 
 class AuthController extends Controller
 {
@@ -75,5 +67,14 @@ class AuthController extends Controller
         return $this->success(
             data: UserResource::make($user),
         );
+    }
+
+    /**
+     * @return JsonResponse
+     */
+    public function logout(): JsonResponse
+    {
+        $this->userService->logout();
+        return $this->success();
     }
 }

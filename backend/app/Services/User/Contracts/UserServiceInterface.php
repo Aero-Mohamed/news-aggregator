@@ -29,7 +29,12 @@ interface UserServiceInterface
     public function authenticate(User $user): PersonalAccessTokenResult;
 
     /**
-     * @return Authenticatable
+     * @return ?Authenticatable
      */
-    public function getAuthenticatedUser(): Authenticatable;
+    public function getAuthenticatedUser(): ?Authenticatable;
+
+    /**
+     * @return void
+     */
+    public function logout(): void;
 }

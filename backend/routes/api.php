@@ -13,5 +13,6 @@ Route::group([
 
     Route::middleware('auth:api')->group(function () {
         Route::get('profile', [AuthController::class, 'profile'])->name('profile');
+        Route::post('logout', [AuthController::class, 'logout'])->name('logout');
     });
 });

@@ -5,6 +5,7 @@ namespace App\Repositories\User\Contracts;
 use App\Models\User;
 use App\Services\User\DTOs\CreateUserData;
 use Illuminate\Contracts\Auth\Authenticatable;
+use Laravel\Passport\Contracts\OAuthenticatable;
 
 interface UserRepositoryInterface
 {
@@ -35,10 +36,10 @@ interface UserRepositoryInterface
     /**
      * Delete user tokens
      *
-     * @param User $user
+     * @param OAuthenticatable $user
      * @return void
      */
-    public function deleteTokens(User $user): void;
+    public function deleteTokens(OAuthenticatable $user): void;
 
     /**
      * Get the currently authenticated user
