@@ -126,6 +126,7 @@ jobs:
           DB_PORT: 33306
           DB_USERNAME: root
           DB_PASSWORD: root
+        working-directory: ./backend
         run: php artisan test --coverage
 
       - uses: symfonycorp/security-checker-action@v5
