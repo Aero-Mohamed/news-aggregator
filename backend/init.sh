@@ -19,6 +19,8 @@ if [ -f artisan ]; then
     php artisan cache:clear
     php artisan route:clear
     php artisan optimize
+
+    php artisan app:news-sync
 fi
 
 find . -type f -exec chmod 644 {} \;
