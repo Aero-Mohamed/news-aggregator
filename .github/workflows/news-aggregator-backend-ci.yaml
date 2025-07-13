@@ -119,6 +119,7 @@ jobs:
         run: php --version
 
       - name: Execute test (Unit and Feature Tests)
+        working-directory: ./backend
         env:
           DB_CONNECTION: mysql
           DB_HOST: 127.0.0.1
@@ -126,7 +127,6 @@ jobs:
           DB_PORT: 33306
           DB_USERNAME: root
           DB_PASSWORD: root
-        working-directory: ./backend
         run: php artisan test --coverage
 
       - uses: symfonycorp/security-checker-action@v5
