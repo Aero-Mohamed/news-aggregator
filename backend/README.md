@@ -83,6 +83,12 @@ The CI pipeline runs the following checks:
 - File path: `.github/workflows/news_aggregator_backend_ci.yml`
 - Trigger: On push to `develop` or `feature/**` branches
 
+---
+
+## 📝 API Postman Documentation
+For detailed API documentation, refer to the [Postman Collection](https://documenter.getpostman.com/view/4735551/2sB34foh8H).
+
+---
 
 ## 🛡️Code Quality
 - Use command `composer lint` to run the following checks:
