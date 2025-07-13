@@ -2,7 +2,9 @@
 
 namespace App\Http\Traits;
 
+use Illuminate\Contracts\Pagination\LengthAwarePaginator;
 use Illuminate\Http\JsonResponse;
+use Illuminate\Http\Resources\Json\ResourceCollection;
 use Symfony\Component\HttpFoundation\Response as ResponseAlias;
 
 trait ApiResponse
@@ -15,10 +17,23 @@ trait ApiResponse
      */
     public function success(
         mixed $data = null,
-        string $message = null,
+        ?string $message = null,
         int $statusCode = ResponseAlias::HTTP_OK
     ): JsonResponse {
-        $message = empty($message) ? 'Success' : $message;
+
+        $pagination = null;
+
+        if ($data instanceof ResourceCollection && $data->resource instanceof LengthAwarePaginator) {
+            $paginator = $data->resource;
+
+            $pagination = [
+                'current_page' => $paginator->currentPage(),
+                'per_page' => $paginator->perPage(),
+                'total' => $paginator->total(),
+                'last_page' => $paginator->lastPage(),
+            ];
+        }
+
         $responseData = [
             'success'       => $statusCode >= 200 && $statusCode < 300,
             'status_code'   => $statusCode,
@@ -26,6 +41,11 @@ trait ApiResponse
             'data'          => $data,
             'errors'        => null,
         ];
+
+        if ($pagination) {
+            $responseData['meta'] = $pagination;
+        }
+
         return response()->json($responseData, $statusCode);
     }
 

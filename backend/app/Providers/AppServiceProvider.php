@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\ServiceProvider;
 use Laravel\Passport\Passport;
+use App\Providers\RepositoryServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
 {

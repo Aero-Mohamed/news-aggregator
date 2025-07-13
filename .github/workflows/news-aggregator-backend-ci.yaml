@@ -33,10 +33,10 @@ jobs:
 
     strategy:
       matrix:
-        operating-system: [ubuntu-latest]
-        php-versions: ['8.3']
-        dependency-stability: ['prefer-none']
-        laravel: ['12.*']
+        operating-system: [ ubuntu-latest ]
+        php-versions: [ '8.3' ]
+        dependency-stability: [ 'prefer-none' ]
+        laravel: [ '12.*' ]
         include:
           - laravel: 12.*
             testbench: 9.*
@@ -117,6 +117,17 @@ jobs:
 
       - name: PHP Version
         run: php --version
+
+      - name: Execute test (Unit and Feature Tests)
+        working-directory: ./backend
+        env:
+          DB_CONNECTION: mysql
+          DB_HOST: 127.0.0.1
+          DB_DATABASE: news_aggregator
+          DB_PORT: 33306
+          DB_USERNAME: root
+          DB_PASSWORD: root
+        run: php artisan test --coverage
 
       - uses: symfonycorp/security-checker-action@v5
         with:

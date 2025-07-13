@@ -2,8 +2,8 @@
 
 namespace App\Providers;
 
-use App\Repositories\User\Contracts\UserRepositoryInterface;
-use App\Repositories\User\UserRepository;
+use App\Services\Article\Contracts\ArticleServiceInterface;
+use App\Services\Article\ArticleService;
 use App\Services\User\Contracts\UserServiceInterface;
 use App\Services\User\UserService;
 use Illuminate\Support\ServiceProvider;
@@ -18,6 +18,7 @@ class ServiceBindingServiceProvider extends ServiceProvider
         $bindings = [
             // Format: Interface => Implementation
             UserServiceInterface::class => UserService::class,
+            ArticleServiceInterface::class => ArticleService::class,
         ];
 
         foreach ($bindings as $abstract => $concrete) {
