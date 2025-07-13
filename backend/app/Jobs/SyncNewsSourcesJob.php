@@ -40,10 +40,14 @@ class SyncNewsSourcesJob implements ShouldQueue
     public function handle(): void
     {
         try {
+            Log::info('Starting news sync from source ' . $this->strategyClass . ' at ' . now());
+
             /** @var NewsSourceInterface $strategy */
             $strategy = app($this->strategyClass);
             $client = new NewsApiService($strategy);
             $client->sync();
+
+            Log::info('News sync completed successfully for source ' . get_class($strategy) . ' at ' . now());
         } catch (Throwable $e) {
             if (isset($strategy)) {
                 Log::error('News sync failed for source ' . get_class($strategy), [
