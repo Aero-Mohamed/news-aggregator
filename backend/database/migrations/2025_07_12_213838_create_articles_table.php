@@ -15,7 +15,6 @@ return new class extends Migration
             $table->uuid('id')->primary()->unique();
 
             $table->foreignUuid('source_id')->constrained()->cascadeOnDelete();
-            $table->foreignUuid('author_id')->nullable()->constrained()->nullOnDelete();
 
             $table->string('title');
             $table->string('slug')->nullable();

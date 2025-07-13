@@ -3,7 +3,9 @@
 namespace App\Console\Commands;
 
 use App\Jobs\SyncNewsSourcesJob;
+use App\Services\NewsApiService\Strategies\GuardianStrategy;
 use App\Services\NewsApiService\Strategies\NewsApiStrategy;
+use App\Services\NewsApiService\Strategies\NYTimesStrategy;
 use Illuminate\Console\Command;
 
 class RunInitialNewsSync extends Command
@@ -28,9 +30,9 @@ class RunInitialNewsSync extends Command
     public function handle(): void
     {
         $sources = [
-            NewsApiStrategy::class
-            //new GuardianService(),
-            //new NYTService(),
+            NewsApiStrategy::class,
+            GuardianStrategy::class,
+            NYTimesStrategy::class,
         ];
 
         foreach ($sources as $strategy) {

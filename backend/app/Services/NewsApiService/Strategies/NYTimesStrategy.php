@@ -2,12 +2,14 @@
 
 namespace App\Services\NewsApiService\Strategies;
 
+use App\Services\NewsApiService\Abstracts\NewsSourceAbstract;
 use App\Services\NewsApiService\Contracts\NewsSourceInterface;
+use Carbon\Carbon;
 use GuzzleHttp\Client;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Str;
 
-class NYTimesStrategy implements NewsSourceInterface
+class NYTimesStrategy extends NewsSourceAbstract implements NewsSourceInterface
 {
     protected Client $client;
     protected string $endpoint;
@@ -53,19 +55,24 @@ class NYTimesStrategy implements NewsSourceInterface
      */
     public function transform(array $raw): array
     {
-        return collect($raw)->map(function ($article) {
-            return [
+        return collect($raw)
+            ->filter(fn ($article) => isset($article['url']))
+            ->map(function ($article) {
+                return [
                 'title'        => $article['title'] ?? null,
                 'author'       => $article['byline'] ?? null,
                 'source'       => 'New York Times',
+                'categories'   => $this->getCategories($article),
                 'url'          => $article['url'] ?? null,
+                'url_hash'     => hash('sha256', $article['url']),
                 'slug'         => Str::slug($article['title'] ?? Str::uuid()),
                 'image_url'    => $this->extractImage($article['multimedia'] ?? []),
                 'description'  => $article['abstract'] ?? null,
                 'content'      => null,
-                'published_at' => $article['published_date'] ?? now(),
-            ];
-        })->toArray();
+                'published_at' => $article['published_date'] ?
+                    Carbon::parse($article['published_date']) :  now(),
+                ];
+            })->toArray();
     }
 
     /**
@@ -84,11 +91,14 @@ class NYTimesStrategy implements NewsSourceInterface
     }
 
     /**
-     * @param array $articles
-     * @return void
+     * @param $article
+     * @return array
      */
-    public function store(array $articles): void
+    private function getCategories($article): array
     {
-        //
+        return collect([
+            $article['section'],
+            $article['subsection'],
+        ])->filter(fn($cat) => !empty($cat))->toArray();
     }
 }

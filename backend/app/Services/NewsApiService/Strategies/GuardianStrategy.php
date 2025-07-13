@@ -2,12 +2,14 @@
 
 namespace App\Services\NewsApiService\Strategies;
 
+use App\Services\NewsApiService\Abstracts\NewsSourceAbstract;
 use App\Services\NewsApiService\Contracts\NewsSourceInterface;
+use Carbon\Carbon;
 use GuzzleHttp\Client;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Str;
 
-class GuardianStrategy implements NewsSourceInterface
+class GuardianStrategy extends NewsSourceAbstract implements NewsSourceInterface
 {
     protected Client $client;
     protected string $endpoint;
@@ -56,27 +58,49 @@ class GuardianStrategy implements NewsSourceInterface
      */
     public function transform(array $raw): array
     {
-        return collect($raw)->map(function ($article) {
-            return [
+        return collect($raw)
+            ->filter(fn ($article) => isset($article['webUrl']))
+            ->map(function ($article) {
+                return [
                 'title'        => $article['webTitle'] ?? null,
                 'author'       => $article['fields']['byline'] ?? null,
                 'source'       => 'The Guardian',
-                'url'          => $article['webUrl'] ?? null,
-                'slug'         => Str::slug($article['webTitle'] ?? Str::uuid()),
+                'categories'   => $this->getCategories($article),
+                'url'          => $article['webUrl'],
+                'url_hash'     => hash('sha256', $article['webUrl']),
+                'slug'         => $this->getSlug($article),
                 'image_url'    => $article['fields']['thumbnail'] ?? null,
                 'description'  => null,
                 'content'      => $article['fields']['bodyText'] ?? null,
-                'published_at' => $article['webPublicationDate'] ?? now(),
-            ];
-        })->toArray();
+                'published_at' => $article['webPublicationDate'] ?
+                    Carbon::parse($article['webPublicationDate']) :  now(),
+                ];
+            })->toArray();
     }
 
     /**
-     * @param array $articles
-     * @return void
+     * @param array $article
+     * @return string
      */
-    public function store(array $articles): void
+    private function getSlug(array $article): string
     {
-        //
+        $title = $article['webTitle'];
+        if (empty($title)) {
+            $title = Str::uuid();
+        }
+        $title .= '-The Guardian';
+        return Str::slug($title);
+    }
+
+    /**
+     * @param $article
+     * @return array
+     */
+    private function getCategories($article): array
+    {
+        return collect([
+            $article['sectionName'],
+            $article['pillarName'],
+        ])->filter(fn($cat) => !empty($cat))->toArray();
     }
 }
