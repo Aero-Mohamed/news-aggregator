@@ -8,7 +8,7 @@ use App\Services\NewsApiService\Strategies\NewsApiStrategy;
 use App\Services\NewsApiService\Strategies\NYTimesStrategy;
 use Illuminate\Console\Command;
 
-class RunInitialNewsSync extends Command
+class NewsSyncCommand extends Command
 {
     /**
      * The name and signature of the console command.
