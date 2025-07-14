@@ -1,6 +1,6 @@
-import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { ArticleState, Article } from './types'
-import {PaginatedApiResponse} from "@/config/types/api";
+import { createSlice, PayloadAction } from "@reduxjs/toolkit";
+import { ArticleState, Article } from "./types";
+import { PaginatedApiResponse } from "@/config/types/api";
 
 const initialState: ArticleState = {
     articles: [],
@@ -9,7 +9,7 @@ const initialState: ArticleState = {
 };
 
 const articleSlice = createSlice({
-    name: 'articles',
+    name: "articles",
     initialState,
     reducers: {
         setArticles(state, action: PayloadAction<PaginatedApiResponse<Article[]>>) {
