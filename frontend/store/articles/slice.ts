@@ -4,7 +4,12 @@ import { PaginatedApiResponse } from "@/config/types/api";
 
 const initialState: ArticleState = {
     articles: [],
-    meta: null,
+    meta: {
+        current_page: 1,
+        per_page: 15,
+        total: 0,
+        last_page: 1,
+    },
     loading: false,
 };
 
