@@ -37,7 +37,7 @@ class ArticleRepository implements ArticleRepositoryInterface
             ])
             ->with(['categories', 'authors', 'source'])
             ->where(function ($query) use ($keyword) {
-                if(empty($keyword)) {
+                if (empty($keyword)) {
                     return;
                 }
                 $query->where('title', 'like', "%{$keyword}%")
