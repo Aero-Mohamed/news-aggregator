@@ -21,18 +21,17 @@ jobs:
           node-version: '18'
 
       - name: Install dependencies
-        run: |
-          if [ -f package-lock.json ]; then
-            npm ci
-          else
-            npm install
-          fi
+        working-directory: ./frontend
+        run: npm ci
 
       - name: Run ESLint
+        working-directory: ./frontend
         run: npm run lint
 
       - name: Run TypeScript check
+        working-directory: ./frontend
         run: npm run type-check
 
       - name: Build project
+        working-directory: ./frontend
         run: npm run build
