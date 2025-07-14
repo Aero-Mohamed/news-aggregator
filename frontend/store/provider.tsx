@@ -1,4 +1,4 @@
-'use client'; // Important!
+"use client"; // Important!
 
 import { Provider } from "react-redux";
 import { store } from "./index";

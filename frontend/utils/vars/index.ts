@@ -10,6 +10,6 @@ export const vars = {
         baseUrl: `${protocol}://${process.env.NEXT_PUBLIC_BASE_URL}/api`,
     },
     api: { headers: { accept: "application/json", "content-type": "application/json" } },
-}
+};
 
 export default vars;

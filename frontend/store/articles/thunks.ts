@@ -1,5 +1,5 @@
 import { getArticles } from "@/services/articles";
-import { setArticles, setLoading } from './slice';
+import { setArticles, setLoading } from "./slice";
 
 export const fetchArticles = () => async (dispatch: any) => {
     dispatch(setLoading(true));

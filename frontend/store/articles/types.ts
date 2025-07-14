@@ -1,4 +1,4 @@
-import {Meta} from "@/config/types/api";
+import { Meta } from "@/config/types/api";
 
 export interface Source {
     id: string;
@@ -32,6 +32,6 @@ export interface Article {
 // Redux state interface
 export interface ArticleState {
     articles: Article[];
-    meta: Meta|null;
+    meta: Meta | null;
     loading: boolean;
 }

@@ -1,12 +1,12 @@
 "use client";
 
-import {useSelector} from "react-redux";
-import { useAppDispatch } from '@/store/hooks';
+import { useSelector } from "react-redux";
+import { useAppDispatch } from "@/store/hooks";
 import ArticleCard from "@/views/components/article/ArticleCard";
 import { Skeleton } from "@/components/ui/skeleton";
-import {RootState} from "@/store";
-import {useEffect} from "react";
-import {fetchArticles} from "@/store/articles/thunks";
+import { RootState } from "@/store";
+import { useEffect } from "react";
+import { fetchArticles } from "@/store/articles/thunks";
 
 export default function ArticleSection() {
     const dispatch = useAppDispatch();
