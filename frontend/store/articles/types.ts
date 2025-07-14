@@ -32,6 +32,6 @@ export interface Article {
 // Redux state interface
 export interface ArticleState {
     articles: Article[];
-    meta: Meta | null;
+    meta: Meta;
     loading: boolean;
 }

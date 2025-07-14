@@ -1,3 +1,10 @@
+import { AxiosRequestConfig } from "axios";
+
+export interface ApiCallParams {
+    query?: Record<string, any>;
+    options?: AxiosRequestConfig;
+}
+
 export interface Meta {
     current_page: number;
     per_page: number;

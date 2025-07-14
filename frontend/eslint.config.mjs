@@ -16,18 +16,10 @@ const eslintConfig = [
             semi: ["error"],
             quotes: ["error", "double"],
             "prefer-arrow-callback": ["error"],
-            "arrow-body-style": ["error", "as-needed"],
             "prefer-template": ["error"],
             "no-shadow": "error",
             eqeqeq: ["error", "always"],
             "no-console": ["warn", { allow: ["warn", "error"] }],
-            "import/order": [
-                "error",
-                {
-                    groups: ["builtin", "external", "internal", "parent", "sibling", "index"],
-                    alphabetize: { order: "asc", caseInsensitive: true },
-                },
-            ],
         },
     }),
 ];

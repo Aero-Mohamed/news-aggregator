@@ -35,13 +35,16 @@ class ArticleRepository implements ArticleRepositoryInterface
                     $query->whereDate('published_at', '<=', $value);
                 }),
             ])
+            ->with(['categories', 'authors', 'source'])
             ->where(function ($query) use ($keyword) {
+                if (empty($keyword)) {
+                    return;
+                }
                 $query->where('title', 'like', "%{$keyword}%")
                     ->orWhere('description', 'like', "%{$keyword}%")
                     ->orWhere('content', 'like', "%{$keyword}%");
             })
-            ->with(['categories', 'authors', 'source'])
-            ->latest()
+            ->latest('published_at')
             ->paginate($perPage);
     }
 

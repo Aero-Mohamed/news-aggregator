@@ -25,6 +25,7 @@ fi
 
 find . -type f -exec chmod 644 {} \;
 find . -type d -exec chmod 755 {} \;
+chmod 644 ./docker/mysql/my.cnf
 chmod -R 777 storage bootstrap/cache
 chmod 755 init.sh vendor/bin/*
 chmod 600 storage/oauth-*.key
