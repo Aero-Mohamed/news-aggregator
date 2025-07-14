@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
-import React from "react";
+import React, { Suspense } from "react";
 import "./globals.css";
 import ReduxProvider from "@/store/provider";
 import { ThemeProvider } from "@/components/theme-provider";
@@ -38,7 +38,9 @@ export default function RootLayout({
                 >
                     <ReduxProvider>{children}</ReduxProvider>
                     <Toaster richColors position="top-right" />
-                    <ProgressBar />
+                    <Suspense fallback={null}>
+                        <ProgressBar />
+                    </Suspense>
                 </ThemeProvider>
             </body>
         </html>
