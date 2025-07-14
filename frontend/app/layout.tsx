@@ -5,6 +5,7 @@ import "./globals.css";
 import ReduxProvider from "@/store/provider";
 import { ThemeProvider } from "@/components/theme-provider";
 import { Toaster } from "sonner";
+import ProgressBar from "@/views/components/ProgressBar";
 
 const geistSans = Geist({
     variable: "--font-geist-sans",
@@ -37,6 +38,7 @@ export default function RootLayout({
                 >
                     <ReduxProvider>{children}</ReduxProvider>
                     <Toaster richColors position="top-right" />
+                    <ProgressBar />
                 </ThemeProvider>
             </body>
         </html>
