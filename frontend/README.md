@@ -24,6 +24,9 @@ This is the **frontend** of the News Aggregator case study project, built using 
 
 > The following features are in progress and not yet available in this version:
 
+- ❌ **Filter by source**:
+  Filter by source in the homepage is not working yet. only filter by keyword and date.
+
 - ❌ **Personalized feed**:  
   Backend is ready, but integration with the frontend is not yet implemented.
 
