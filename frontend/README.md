@@ -1,4 +1,48 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+
+# 📰 News Aggregator – Frontend (Next.js)
+
+This is the **frontend** of the News Aggregator case study project, built using **React**, **Next.js (App Router)**, and **Redux**. The application fetches articles from multiple sources via a Laravel API backend, allowing users to view and filter news articles by category and source.
+
+---
+
+## 🚀 Features Implemented
+
+- ✅ Article listing basic filtration on the homepage  
+- ✅ User Authentication 
+- ✅ Redux store for global state management  
+- ✅ Structured file architecture for scalability  
+- ✅ API service layer for backend communication  
+- ✅ Clean UI with [shadcn/ui](https://ui.shadcn.com) components  
+- ✅ Type-safe data structures  
+- ✅ Responsive layout with reusable components
+
+---
+
+## ⚠️ Known Limitations & Incomplete Features
+
+> The following features are in progress and not yet available in this version:
+
+- ❌ **Personalized feed**:  
+  Backend is ready, but integration with the frontend is not yet implemented.
+
+- ❌ **Edit user preferences (categories, sources, authors)**:  
+  The UI is partially designed and present, but backend connectivity is still pending.
+
+- ❌ **Docker**:  
+  This project is currently **not Dockerized**. You must run it manually via `npm` or `yarn`.
+
+---
+
+## 🧠 Tech Stack
+
+- **React** + **Next.js** (App Router)
+- **Redux Toolkit** for state management
+- **TypeScript** for type safety
+- **Tailwind CSS** via shadcn/ui
+- **Axios** for backend communication
+- **ESLint**, **Prettier** for code formatting
+- **GitHub Actions** for CI
+---
 
 ## Getting Started
 
@@ -14,23 +58,12 @@ pnpm dev
 bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+### 🔧 To Do (Next Steps)
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+- [ ] Integrate personalized feed from backend
+- [ ] Fetch and update user news preferences
+- [ ] Dockerize the frontend for consistent deployments
+- [ ] Add unit and integration tests
+- [ ] Improve error handling and fallback UI  
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
 
-## Learn More
-
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
