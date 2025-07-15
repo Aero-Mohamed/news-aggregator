@@ -27,7 +27,26 @@ A full-stack news aggregator web application built with **Laravel (API backend)*
 
 ---
 
+## Git Workflow
 
+This project follows the **Git Flow** branching model.
+
+### Branch Structure
+
+- `main` – Stable, production-ready code
+- `develop` – Active development branch
+- `feature/*` – Feature branches
+- `release/*` – Pre-release staging branches
+- `bugfix/*` – Small isolated fixes
+- `hotfix/*` – Emergency fixes for `main`
+- `support/*` – Support branches for old releases
+- Versions – `v1.0.0`, `v1.1.0`, etc.
+
+### Git Flow Commands Used
+
+This repo uses [Git Flow](https://nvie.com/posts/a-successful-git-branching-model/) via the CLI tool:
+
+---
 
 ## License
 
