@@ -1,7 +1,7 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { AuthState, AuthUserRes } from "./types";
 import { ApiResponse } from "@/config/types/api";
-import axiosInstance from "@/config/axios";
+import Cookies from "js-cookie";
 
 const initialState: AuthState = {
     user: {
@@ -17,7 +17,8 @@ const authSlice = createSlice({
     name: "auth",
     initialState,
     reducers: {
-        login(state, action: PayloadAction<ApiResponse<AuthUserRes>>) {
+        // for login or register actions
+        authenticateAction(state, action: PayloadAction<ApiResponse<AuthUserRes>>): void {
             state.user = {
                 id: action.payload.data?.id,
                 name: action.payload.data.name,
@@ -28,14 +29,28 @@ const authSlice = createSlice({
             if (typeof document !== "undefined") {
                 const access_token: string = action.payload.data.access_token;
                 const expires_in: number = action.payload.data.expires_in;
-                document.cookie = `token=${access_token}; path=/; max-age=${expires_in}; secure; samesite=strict`;
+                Cookies.set("token", access_token, {
+                    expires: expires_in,
+                });
             }
         },
-        setLoading(state, action: PayloadAction<boolean>) {
+        logoutAction(state, action: PayloadAction<ApiResponse<null>>): void {
+            state.user = {
+                id: 0,
+                name: "",
+                email: "",
+            };
+            state.isAuthenticated = false;
+
+            if (typeof document !== "undefined") {
+                Cookies.remove("token");
+            }
+        },
+        setLoading(state, action: PayloadAction<boolean>): void {
             state.loading = action.payload;
         },
     },
 });
 
-export const { login, setLoading } = authSlice.actions;
+export const { authenticateAction, logoutAction, setLoading } = authSlice.actions;
 export default authSlice.reducer;

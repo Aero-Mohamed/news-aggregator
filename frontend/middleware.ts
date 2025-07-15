@@ -12,6 +12,7 @@ export function middleware(request: NextRequest) {
         request.nextUrl.pathname === "/login" || request.nextUrl.pathname === "/register";
 
     if (isAuth && isAuthPage) {
+        console.log("isAuthPage", isAuthPage);
         return NextResponse.redirect(new URL(AuthRedirectTo, request.url));
     }
 
