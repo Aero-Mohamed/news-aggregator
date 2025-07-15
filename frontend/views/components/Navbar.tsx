@@ -1,3 +1,5 @@
+"use client";
+
 import { Button } from "@/components/ui/button";
 import {
     NavigationMenu,
@@ -8,11 +10,27 @@ import {
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
 import { ModeToggle } from "@/views/components/ModeToggle";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
+import { useAppDispatch } from "@/store/hooks";
+import { useSelector } from "react-redux";
+import { RootState } from "@/store";
+import { userLogout } from "@/store/auth/thunks";
 
 // Navigation links array to be used in both desktop and mobile menus
-const navigationLinks = [{ href: "#", label: "Home", active: true }];
+const navigationLinks = [{ href: "/", label: "Home", active: true }];
 
 export default function Navbar() {
+    const router = useRouter();
+    const dispatch = useAppDispatch();
+
+    const { isAuthenticated, user } = useSelector((state: RootState) => state.auth);
+
+    const handleLogout = () => {
+        dispatch(userLogout()).then(() => {
+            router.push("/");
+        });
+    };
+
     return (
         <header className="border-b px-4 md:px-6">
             <div className="flex h-16 items-center justify-between gap-4 mx-auto container">
@@ -92,12 +110,27 @@ export default function Navbar() {
                 </div>
                 {/* Right side */}
                 <div className="flex items-center gap-2">
-                    <Button asChild variant="ghost" size="sm" className="text-sm">
-                        <Link href="/login">Sign In</Link>
-                    </Button>
-                    <Button asChild size="sm" className="text-sm">
-                        <Link href="/register">Get Started</Link>
-                    </Button>
+                    {isAuthenticated && (
+                        <>
+                            <Button asChild variant="ghost" size="sm" className="text-sm">
+                                <span className="cursor-pointer" onClick={handleLogout}>
+                                    Logout
+                                </span>
+                            </Button>
+                        </>
+                    )}
+
+                    {!isAuthenticated && (
+                        <>
+                            <Button asChild variant="ghost" size="sm" className="text-sm">
+                                <Link href="/login">Sign In</Link>
+                            </Button>
+                            <Button asChild size="sm" className="text-sm">
+                                <Link href="/register">Get Started</Link>
+                            </Button>
+                        </>
+                    )}
+
                     <ModeToggle />
                 </div>
             </div>

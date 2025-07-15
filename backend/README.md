@@ -31,10 +31,13 @@ Make sure you have the following installed on your system:
 
 ## 🛠️ Installation Instructions
 
-### 0️⃣ Install Composer Dependencies
+### 0️⃣ Basic Setup
 ```bash
 composer install
+chmod 644 ./docker/mysql/my.cnf
 ```
+As we are in development mode, we mount the current project directory into the container.
+So, we need to install the Laravel dependencies using Composer. And change the permissions of the MySQL configuration file.
 
 ### 1️⃣ Start and Build Containers
 

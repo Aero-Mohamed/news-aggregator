@@ -17,7 +17,7 @@ const articleSlice = createSlice({
     name: "articles",
     initialState,
     reducers: {
-        setArticles(state, action: PayloadAction<PaginatedApiResponse<Article[]>>) {
+        setArticlesAction(state, action: PayloadAction<PaginatedApiResponse<Article[]>>) {
             state.articles = action.payload.data;
             state.meta = action.payload.meta;
         },
@@ -27,5 +27,5 @@ const articleSlice = createSlice({
     },
 });
 
-export const { setArticles, setLoading } = articleSlice.actions;
+export const { setArticlesAction, setLoading } = articleSlice.actions;
 export default articleSlice.reducer;

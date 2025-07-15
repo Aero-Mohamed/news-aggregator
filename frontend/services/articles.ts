@@ -1,5 +1,5 @@
 import axios from "@/config/axios";
-import { AxiosRequestConfig, AxiosResponse } from "axios";
+import { AxiosResponse } from "axios";
 import { ApiCallParams, PaginatedApiResponse } from "@/config/types/api";
 import { Article } from "@/store/articles/types";
 

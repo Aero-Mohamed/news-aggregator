@@ -5,6 +5,11 @@ export interface ApiCallParams {
     options?: AxiosRequestConfig;
 }
 
+export interface PostApiCallParams {
+    data?: Record<string, any>;
+    options?: AxiosRequestConfig;
+}
+
 export interface Meta {
     current_page: number;
     per_page: number;
