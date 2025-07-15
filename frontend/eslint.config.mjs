@@ -21,6 +21,7 @@ const eslintConfig = [
             eqeqeq: ["error", "always"],
             "no-console": ["warn", { allow: ["warn", "error"] }],
         },
+        ignorePatterns: ["components/ui/**/*"],
     }),
 ];
 
