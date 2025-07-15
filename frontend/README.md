@@ -5,6 +5,8 @@ This is the **frontend** of the News Aggregator case study project, built using 
 
 ---
 
+![Demo Screenshot](public/demo.jpg)
+
 ## 🚀 Features Implemented
 
 - ✅ Article listing basic filtration on the homepage  
