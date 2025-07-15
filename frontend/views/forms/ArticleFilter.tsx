@@ -48,7 +48,6 @@ const sources: Source[] = [
     { id: "5", name: "Reuters" },
 ];
 
-
 export default function ArticleFilter() {
     const router = useRouter();
     const searchParams = useSearchParams();
@@ -59,7 +58,7 @@ export default function ArticleFilter() {
     const dateToParam = searchParams.get("date_to") || "";
     const keywordParam = searchParams.get("keyword") || "";
 
-    console.log(dateFromParam? "date from true": "date from false")
+    console.log(dateFromParam ? "date from true" : "date from false");
 
     const form = useForm({
         resolver: zodResolver(filterSchema),
@@ -67,7 +66,7 @@ export default function ArticleFilter() {
             dateFrom: dateFromParam ? new Date(dateFromParam) : undefined,
             dateTo: dateFromParam ? new Date(dateToParam) : undefined,
             keyword: keywordParam,
-        }
+        },
     });
 
     const onSubmit = (values: any) => {
@@ -86,7 +85,7 @@ export default function ArticleFilter() {
             params.delete("date_to");
         }
 
-        params.set("keyword", String(values.keyword))
+        params.set("keyword", String(values.keyword));
         params.set("page", String(1));
         router.push(`?${params.toString()}`);
     };

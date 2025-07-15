@@ -10,6 +10,7 @@ import ArticleCardSkeleton from "@/views/components/article/ArticleCardSkeleton"
 import { useSearchParams, useRouter } from "next/navigation";
 import PaginationControls from "@/views/components/PaginationControls";
 import ArticleFilter from "@/views/forms/ArticleFilter";
+import { UserPreferenceModal } from "@/views/modals/UserPreferenceModal";
 
 export default function ArticleSection() {
     const dispatch = useAppDispatch();
@@ -29,7 +30,7 @@ export default function ArticleSection() {
                     page: pageParam || 1,
                     "filter[date_from]": dateFromParam ? dateFromParam : "",
                     "filter[date_to]": dateFromParam ? dateToParam : "",
-                    "keyword": keywordParam,
+                    keyword: keywordParam,
                 },
             })
         );
@@ -53,7 +54,7 @@ export default function ArticleSection() {
 
     return (
         <>
-            <ArticleFilter/>
+            <ArticleFilter />
             <div className="grid grid-cols-1 lg:grid-cols-3 gap-4 p-4">
                 {articles?.map((article: any) => (
                     <ArticleCard key={article.id} article={article} />
