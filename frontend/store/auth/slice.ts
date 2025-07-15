@@ -4,11 +4,7 @@ import { ApiResponse } from "@/config/types/api";
 import Cookies from "js-cookie";
 
 const initialState: AuthState = {
-    user: {
-        id: 0,
-        name: "",
-        email: "",
-    },
+    user: { id: 0, name: "", email: "" },
     isAuthenticated: false,
     loading: false,
 };
@@ -17,6 +13,10 @@ const authSlice = createSlice({
     name: "auth",
     initialState,
     reducers: {
+        hydrateAuthFromStorage(state, action: PayloadAction<AuthState>) {
+            state.user = action.payload.user;
+            state.isAuthenticated = action.payload.isAuthenticated;
+        },
         // for login or register actions
         authenticateAction(state, action: PayloadAction<ApiResponse<AuthUserRes>>): void {
             state.user = {
@@ -25,6 +25,8 @@ const authSlice = createSlice({
                 email: action.payload.data.email,
             };
             state.isAuthenticated = true;
+
+            localStorage.setItem("user", JSON.stringify(state.user));
 
             if (typeof document !== "undefined") {
                 const access_token: string = action.payload.data.access_token;
@@ -45,6 +47,10 @@ const authSlice = createSlice({
             if (typeof document !== "undefined") {
                 Cookies.remove("token");
             }
+
+            if (typeof window !== "undefined") {
+                localStorage.removeItem("user");
+            }
         },
         setLoading(state, action: PayloadAction<boolean>): void {
             state.loading = action.payload;
@@ -52,5 +58,6 @@ const authSlice = createSlice({
     },
 });
 
-export const { authenticateAction, logoutAction, setLoading } = authSlice.actions;
+export const { hydrateAuthFromStorage, authenticateAction, logoutAction, setLoading } =
+    authSlice.actions;
 export default authSlice.reducer;

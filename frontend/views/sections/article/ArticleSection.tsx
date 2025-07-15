@@ -9,6 +9,8 @@ import { fetchArticles } from "@/store/articles/thunks";
 import ArticleCardSkeleton from "@/views/components/article/ArticleCardSkeleton";
 import { useSearchParams, useRouter } from "next/navigation";
 import PaginationControls from "@/views/components/PaginationControls";
+import ArticleFilter from "@/views/forms/ArticleFilter";
+import { UserPreferenceModal } from "@/views/modals/UserPreferenceModal";
 
 export default function ArticleSection() {
     const dispatch = useAppDispatch();
@@ -17,14 +19,22 @@ export default function ArticleSection() {
 
     const { articles, meta, loading } = useSelector((state: RootState) => state.articles);
     const pageParam = parseInt(searchParams.get("page") || "1", 10);
+    const dateFromParam = searchParams.get("date_from");
+    const dateToParam = searchParams.get("date_to");
+    const keywordParam = searchParams.get("keyword");
 
     useEffect(() => {
         dispatch(
             fetchArticles({
-                query: { page: pageParam || 1 },
+                query: {
+                    page: pageParam || 1,
+                    "filter[date_from]": dateFromParam ? dateFromParam : "",
+                    "filter[date_to]": dateFromParam ? dateToParam : "",
+                    keyword: keywordParam,
+                },
             })
         );
-    }, [dispatch, pageParam]);
+    }, [dispatch, pageParam, searchParams]);
 
     const handlePageChange = (page: number) => {
         const params = new URLSearchParams(searchParams);
@@ -44,6 +54,7 @@ export default function ArticleSection() {
 
     return (
         <>
+            <ArticleFilter />
             <div className="grid grid-cols-1 lg:grid-cols-3 gap-4 p-4">
                 {articles?.map((article: any) => (
                     <ArticleCard key={article.id} article={article} />

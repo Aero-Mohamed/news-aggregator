@@ -13,7 +13,7 @@ This is the backend API of the **News Aggregator App**, built with Laravel. It h
     - New York Times API
 - 🧠 Personalized feeds based on selected categories, sources, and authors
 - 🔎 Advanced search and filtering (by keyword, category, date, source)
-- 🧪 Fully testable with PHPUnit
+- 🧪 Basically testable with PHPUnit
 
 ---
 
@@ -56,6 +56,17 @@ This command opens an interactive terminal session inside the Laravel PHP contai
 ```bash
 ./init.sh
 ```
+
+### 4️⃣ Default Test User & API Keys
+
+For testing purposes, the following credentials are pre-seeded:
+```
+Email: test@example.com
+Password: password
+```
+
+Note: API keys for NewsAPI, Guardian, and NYTimes are included in the `.env.example` file.
+While this is not recommended for production, it's provided for easier testing and development.
 
 ---
 

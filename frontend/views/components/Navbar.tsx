@@ -15,6 +15,8 @@ import { useAppDispatch } from "@/store/hooks";
 import { useSelector } from "react-redux";
 import { RootState } from "@/store";
 import { userLogout } from "@/store/auth/thunks";
+import { UserPreferenceModal } from "@/views/modals/UserPreferenceModal";
+import { Suspense } from "react";
 
 // Navigation links array to be used in both desktop and mobile menus
 const navigationLinks = [{ href: "/", label: "Home", active: true }];
@@ -109,30 +111,33 @@ export default function Navbar() {
                     </div>
                 </div>
                 {/* Right side */}
-                <div className="flex items-center gap-2">
-                    {isAuthenticated && (
-                        <>
-                            <Button asChild variant="ghost" size="sm" className="text-sm">
-                                <span className="cursor-pointer" onClick={handleLogout}>
-                                    Logout
-                                </span>
-                            </Button>
-                        </>
-                    )}
+                <Suspense fallback={<div>Loading pagination...</div>}>
+                    <div className="flex items-center gap-2">
+                        {isAuthenticated && (
+                            <>
+                                <Button asChild variant="ghost" size="sm" className="text-sm">
+                                    <span className="cursor-pointer" onClick={handleLogout}>
+                                        Logout
+                                    </span>
+                                </Button>
+                                <UserPreferenceModal />
+                            </>
+                        )}
 
-                    {!isAuthenticated && (
-                        <>
-                            <Button asChild variant="ghost" size="sm" className="text-sm">
-                                <Link href="/login">Sign In</Link>
-                            </Button>
-                            <Button asChild size="sm" className="text-sm">
-                                <Link href="/register">Get Started</Link>
-                            </Button>
-                        </>
-                    )}
+                        {!isAuthenticated && (
+                            <>
+                                <Button asChild variant="ghost" size="sm" className="text-sm">
+                                    <Link href="/login">Sign In</Link>
+                                </Button>
+                                <Button asChild size="sm" className="text-sm">
+                                    <Link href="/register">Get Started</Link>
+                                </Button>
+                            </>
+                        )}
 
-                    <ModeToggle />
-                </div>
+                        <ModeToggle />
+                    </div>
+                </Suspense>
             </div>
         </header>
     );
