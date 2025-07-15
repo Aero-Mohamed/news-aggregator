@@ -18,14 +18,22 @@ export default function ArticleSection() {
 
     const { articles, meta, loading } = useSelector((state: RootState) => state.articles);
     const pageParam = parseInt(searchParams.get("page") || "1", 10);
+    const dateFromParam = searchParams.get("date_from");
+    const dateToParam = searchParams.get("date_to");
+    const keywordParam = searchParams.get("keyword");
 
     useEffect(() => {
         dispatch(
             fetchArticles({
-                query: { page: pageParam || 1 },
+                query: {
+                    page: pageParam || 1,
+                    "filter[date_from]": dateFromParam ? dateFromParam : "",
+                    "filter[date_to]": dateFromParam ? dateToParam : "",
+                    "keyword": keywordParam,
+                },
             })
         );
-    }, [dispatch, pageParam]);
+    }, [dispatch, pageParam, searchParams]);
 
     const handlePageChange = (page: number) => {
         const params = new URLSearchParams(searchParams);
@@ -45,7 +53,7 @@ export default function ArticleSection() {
 
     return (
         <>
-            <ArticleFilter />
+            <ArticleFilter/>
             <div className="grid grid-cols-1 lg:grid-cols-3 gap-4 p-4">
                 {articles?.map((article: any) => (
                     <ArticleCard key={article.id} article={article} />

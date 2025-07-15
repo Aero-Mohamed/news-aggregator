@@ -15,6 +15,7 @@ import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover
 import { Calendar } from "@/components/ui/calendar";
 
 import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
 import { CalendarIcon } from "lucide-react";
 import {
     Select,
@@ -31,12 +32,14 @@ import { useRouter, useSearchParams } from "next/navigation";
 import { Source } from "@/store/articles/types";
 
 const filterSchema = z.object({
+    keyword: z.string().optional(),
     sourceId: z.string().optional(),
     dateFrom: z.date().optional(),
-    dateTo: z.string().optional(),
+    dateTo: z.date().optional(),
 });
 
 // Hardcoded sources for the dropdown
+// TODO: get from api
 const sources: Source[] = [
     { id: "1", name: "CNN" },
     { id: "2", name: "BBC" },
@@ -45,36 +48,79 @@ const sources: Source[] = [
     { id: "5", name: "Reuters" },
 ];
 
+
 export default function ArticleFilter() {
     const router = useRouter();
     const searchParams = useSearchParams();
 
     //const pageParam = parseInt(searchParams.get("page") || "1", 10);
-    // const sourceIdParam = searchParams.get("source_id") || "";
-    // const dateFromParam = searchParams.get("date_from") || "";
-    // const dateToParam = searchParams.get("date_to") || "";
+    const sourceIdParam = searchParams.get("source_id") || "";
+    const dateFromParam = searchParams.get("date_from") || "";
+    const dateToParam = searchParams.get("date_to") || "";
+    const keywordParam = searchParams.get("keyword") || "";
 
-    // State for filters
-    const [sourceId, setSourceId] = useState<string>();
-    const [dateFrom, setDateFrom] = useState<string>();
-    const [dateTo, setDateTo] = useState<string>();
+    console.log(dateFromParam? "date from true": "date from false")
 
     const form = useForm({
         resolver: zodResolver(filterSchema),
+        defaultValues: {
+            dateFrom: dateFromParam ? new Date(dateFromParam) : undefined,
+            dateTo: dateFromParam ? new Date(dateToParam) : undefined,
+            keyword: keywordParam,
+        }
     });
 
-    const onSubmit = (values: any) => {};
+    const onSubmit = (values: any) => {
+        const params = new URLSearchParams(searchParams);
+        if (values.dateFrom) {
+            const formattedDate = format(values.dateFrom, "yyyy-MM-dd");
+            params.set("date_from", formattedDate);
+        } else {
+            params.delete("date_from");
+        }
 
-    const handleClearFilters = () => {};
+        if (values.dateTo) {
+            const formattedDate = format(values.dateTo, "yyyy-MM-dd");
+            params.set("date_to", formattedDate);
+        } else {
+            params.delete("date_to");
+        }
+
+        params.set("keyword", String(values.keyword))
+        params.set("page", String(1));
+        router.push(`?${params.toString()}`);
+    };
+
+    const handleClearFilters = () => {
+        const params = new URLSearchParams(searchParams);
+        params.delete("date_from");
+        params.delete("date_to");
+        params.delete("source_id");
+        params.delete("keyword");
+        params.set("page", String(1));
+        router.push(`?${params.toString()}`);
+    };
 
     return (
         <Form {...form}>
             <form
                 onSubmit={form.handleSubmit(onSubmit)}
-                className="mt-4 p-4 rounded-lg shadow mb-4 border"
+                className="mt-4 p-4 rounded-lg shadow mb-4 border mx-5"
             >
-                <h2 className="text-lg font-semibold mb-4">Filter Articles</h2>
                 <div className="grid grid-cols-1 md:grid-cols-5 gap-4">
+                    <FormField
+                        control={form.control}
+                        name="keyword"
+                        render={({ field }) => (
+                            <FormItem>
+                                <FormLabel>Search</FormLabel>
+                                <FormControl>
+                                    <Input placeholder="search by a keyword" {...field} />
+                                </FormControl>
+                                <FormMessage />
+                            </FormItem>
+                        )}
+                    />
                     <FormField
                         control={form.control}
                         name="sourceId"
@@ -129,9 +175,44 @@ export default function ArticleFilter() {
                                             mode="single"
                                             selected={field.value}
                                             onSelect={field.onChange}
-                                            disabled={date =>
-                                                date > new Date() || date < new Date("1900-01-01")
-                                            }
+                                            captionLayout="dropdown"
+                                        />
+                                    </PopoverContent>
+                                </Popover>
+                                <FormMessage />
+                            </FormItem>
+                        )}
+                    />
+                    <FormField
+                        control={form.control}
+                        name="dateTo"
+                        render={({ field }) => (
+                            <FormItem className="flex flex-col w-full">
+                                <FormLabel>Date From</FormLabel>
+                                <Popover>
+                                    <PopoverTrigger asChild>
+                                        <FormControl>
+                                            <Button
+                                                variant={"outline"}
+                                                className={cn(
+                                                    "w-full pl-3 text-left font-normal",
+                                                    !field.value && "text-muted-foreground"
+                                                )}
+                                            >
+                                                {field.value ? (
+                                                    format(field.value, "PPP")
+                                                ) : (
+                                                    <span>Pick a date</span>
+                                                )}
+                                                <CalendarIcon className="ml-auto h-4 w-4 opacity-50" />
+                                            </Button>
+                                        </FormControl>
+                                    </PopoverTrigger>
+                                    <PopoverContent className="w-auto p-0" align="start">
+                                        <Calendar
+                                            mode="single"
+                                            selected={field.value}
+                                            onSelect={field.onChange}
                                             captionLayout="dropdown"
                                         />
                                     </PopoverContent>
